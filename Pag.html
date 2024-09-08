@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campanha Eulalie</title>
+    <style>
+		body {
+            background-color: #F3E5F5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Define altura mínima de 100% da janela */
+            overflow-x: hidden; /* Evita rolagem horizontal */
+        }
+		.container {
+            flex: 1; /* Faz o conteúdo crescer para ocupar o espaço restante */
+        }
+		.toolbar {
+            background-color: #6A1B9A;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+			box-sizing: border-box; /* Evita que o padding afete a largura */
+        }
+		.toolbar-logo img {
+            margin-right: 10px; /* Espaço entre a imagem e o título */
+            width: 50px; /* Ajuste o tamanho da imagem conforme necessário */
+            height: auto;
+        }  
+        .toolbar h1 {
+            font-size: 1em;
+            margin: 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .toolbar-nav {
+            display: flex;
+            gap: 15px;
+        }
+        .toolbar-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .toolbar-nav a:hover {
+            background-color: #F3E5F5;
+			color: black;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .intro {
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: #6A1B9A;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s ease-in-out;
+        }
+        .intro h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .intro p {
+            font-size: 1.0em;
+            line-height: 1.5;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px; /* Limita a largura do card */
+            transition: all 0.3s ease;
+			animation: fadeIn 2s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card-title {
+            font-size: 1.5em;
+            color: #6A1B9A;
+            margin-bottom: 10px;
+        }
+        .card-content {
+            height: 100px; /* Ajusta a altura visível */
+            overflow-y: hidden; /* Esconde a barra de rolagem por padrão */
+            color: #333;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: height 0.3s ease; /* Transição suave para expandir o texto */
+        }
+        .card img {
+            margin-right: 10px;
+            width: 100%; /* Define a largura máxima como 100% do card */
+            height: auto; /* Mantém a proporção da imagem */
+            border-radius: 8px;
+            object-fit: cover; /* Garante que a imagem se ajuste corretamente ao card */
+        }
+        .card.expanded .card-content {
+            height: auto; /* Expande o conteúdo ao clicar em "Ler mais" */
+            max-height: 200px; /* Define um limite máximo de altura ao expandir */
+            overflow-y: auto; /* Mostra a barra de rolagem apenas quando expandido */
+        }
+        .read-more {
+            color: #6A1B9A;
+            cursor: pointer;
+            font-size: 12px;
+            display: block;
+            margin-top: 10px;
+            text-align: right;
+        }
+		@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .footer {
+            background-color: #6A1B9A;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%; /* O rodapé ocupa toda a largura da página */
+            position: relative; /* Pode ser ajustado para 'fixed' dependendo do comportamento desejado */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-top: auto; /* Empurra o rodapé para o final da página */
+			box-sizing: border-box; /* Inclui padding na largura total */
+            overflow-x: hidden; /* Evita que o rodapé cause rolagem horizontal */
+        }
+        .footer h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .footer p {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin: 10px 0;
+        }
+        .footer a {
+            color: #FFC107; /* Cor do link */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            color: #FFEB3B; /* Cor quando o usuário passa o mouse */
+        }
+
+        /* Aba de Contato */
+        .contact-bar {
+            background-color: #512DA8;
+            color: white;
+            padding: 15px 20px;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px 10px 0 0;
+            z-index: 1000;
+            transition: transform 0.3s ease; /* Transição suave ao minimizar */
+            transition: transform 0.3s ease; /* Transição suave ao minimizar */
+        }
+        .contact-bar.minimized {
+            transform: translateY(95%); /* Aba recolhida para baixo */
+        }
+		.minimized {
+            transform: translateY(70%); /* Move a aba para fora da tela */
+        }
+        .contact-bar h3 {
+            font-size: 1.4em;
+            margin: 0;
+        }
+        .contact-bar p {
+            font-size: 1em;
+            line-height: 1.5;
+            margin: 5px 0;
+        }
+        .contact-bar a {
+            color: #FFC107; /* Cor do link na aba de contato */
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .contact-bar a:hover {
+            color: #FFEB3B;
+        }
+
+        /* Botão de fechar para minimizar a aba */
+        .contact-bar-close {
+            font-size: 14px;
+            color: white;
+            background-color: transparent;
+            border: none;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        /* Botão de abrir a aba minimizada */
+        .contact-bar-open {
+            background-color: #512DA8;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            text-align: center;
+            z-index: 999;
+            display: none; /* Escondido até ser minimizado */
+        }
+
+        .transition-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .transition-section h2 {
+            font-size: 1.8em;
+            color: #6A1B9A;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .transition-step {
+            margin-bottom: 20px;
+        }
+        .transition-step h3 {
+            font-size: 1.5em;
+            color: #6A1B9A;
+            margin-bottom: 10px;
+        }
+        .transition-step p {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+		
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <div class="toolbar-logo">
+        <img src="Eulalie.png" alt="Logo"> <!-- link da imagem  -->
+        <h1>Campanha Eulalie</h1>
+    </div>
+    <nav class="toolbar-nav">
+        <a href="#home">Home</a>
+        <a href="#about">Sobre</a>
+        <a href="#services">Serviços</a>
+        <a href="#contact">Contato</a>
+    </nav>
+</div>
+
+<div class="container">
+
+    <div class="intro">
+        <h1>Eulalie: carinho em cada fase, do amamentar ao cuidar</h1>
+        <p>Somos: Celina Victoria Brandão, Grazielle Rocha, Sara Elizia, Lorena Hopka e Emilly Santos, estudantes de Fonoaudiologia na Uninassau Aracaju, e montamos uma campanha de saúde neonatal voltada para vocês, mamães de RN. Conheça os principais assuntos.</p>
+    </div>
+
+    <div class="card-grid">
+        <div class="card">
+            <h2 class="card-title">Amamentação</h2>
+            <div class="card-content">
+                <p>Amamentação é a alimentação de bebês e crianças pequenas com leite produzido pelas mamas de uma mulher. Os profissionais de saúde recomendam que se inicie a amamentação na primeira hora de vida do bebê (hora de ouro) e que continue a ser amamentado com a frequência e quantidade que o bebé desejar. Durante as primeiras semanas de vida, os bebês podem amamentar com intervalos de aproximadamente duas a três horas. A duração de cada mamada é, em média, de dez a quinze minutos em cada mama. Quando não é possível a mãe amamentar, podem ser usadas bombas de extração de leite e o leite armazenado para consumo posterior. A amamentação possui uma série de benefícios para a mãe e para o bebê, benefícios esses que não estão presentes no leite artificial.</p>
+            </div>
+            <span class="read-more" onclick="toggleCard(this)">Ler mais</span>
+        </div>
+		<div class="card">
+            <h2 class="card-title">Teste da orelhinha</h2>
+            <div class="card-content">
+                <p>Esse teste, realizado já no segundo ou terceiro dia de vida do bebê, ainda na maternidade, consiste na colocação de um fone acoplado a um computador na orelha do bebê que emite sons de fraca intensidade e recolhe as respostas que a orelha interna do bebê produz. É um exame importante para detectar se o recém-nascido tem problemas de audição e após a sua realização é possível iniciar o diagnóstico e o tratamento das alterações auditivas precocemente.  O Teste da Orelhinha é realizado com o bebê dormindo, em sono natural, é indolor e não machuca, não precisa de picadas ou sangue do bebê, não tem contraindicações e dura em torno de 10 minutos.</p>
+            </div>
+            <span class="read-more" onclick="toggleCard(this)">Ler mais</span>
+        </div>
+		<div class="card">
+            <h2 class="card-title">Teste da linguinha</h2>
+            <div class="card-content">
+                <p>Esse teste, realizado já no segundo ou terceiro dia de vida do bebê, ainda na maternidade, consiste na colocação de um fone acoplado a um computador na orelha do bebê que emite sons de fraca intensidade e recolhe as respostas que a orelha interna do bebê produz. É um exame importante para detectar se o recém-nascido tem problemas de audição e após a sua realização é possível iniciar o diagnóstico e o tratamento das alterações auditivas precocemente.  O Teste da Orelhinha é realizado com o bebê dormindo, em sono natural, é indolor e não machuca, não precisa de picadas ou sangue do bebê, não tem contraindicações e dura em torno de 10 minutos.</p>
+            </div>
+            <span class="read-more" onclick="toggleCard(this)">Ler mais</span>
+        </div>
+		<div class="card">
+            <h2 class="card-title">Uso de chupetas, mamadeiras e outros</h2>
+            <div class="card-content">
+                <p>O uso de chupeta e mamadeira pode impactar o desenvolvimento da fala, dentição e respiração da criança. Prolongar o uso desses objetos pode causar problemas como dificuldades na articulação de sons, atraso na fala, mordida aberta, desalinhamento dental e respiração oral. Para evitar esses problemas, recomenda-se descontinuar o uso da chupeta entre 6 meses e 1 ano de idade, e iniciar a transição da mamadeira para o copo por volta dos 12 meses. A amamentação é preferível, pois promove um desenvolvimento oral saudável. Acompanhamento fonoaudiológico pode ser necessário para corrigir desvios causados pelo uso prolongado desses objetos.</p>
+            </div>
+            <span class="read-more" onclick="toggleCard(this)">Ler mais</span>
+        </div>
+		<div class="card">
+            <h2 class="card-title">Por quê levar seu bebê no Fonoaudiólogo? </h2>
+            <div class="card-content">
+                <p>Faça obrigatoriamente o teste da linguinha e orelhinha em seu bebê! Se o seu bebê não faz contato visual com você no momento da amamentação, é um sinal de autismo e pode ser melhor diagnosticado. E, caso você note engasgos frequentes do seu bebê ao se alimentar, leve-o urgentemente para uma consulta com fonoaudiólogo neonatal/infantil.</p>
+            </div>
+            <span class="read-more" onclick="toggleCard(this)">Ler mais</span>
+        </div>
+        <div class="card">
+            <div class="img">
+                <img src="img-bebe.jpg" alt="bebe">
+            </div>
+        </div>
+        <div class="card">
+            <div class="img">
+                <img src="Eulalie.png" alt="bebe">
+            </div>
+        </div>
+    </div>
+
+    <div class="transition-section">
+        <h2>Como fazer A Transição Alimentar</h2>
+
+        <div class="transition-step">
+            <h3>Entre 4 e 6 meses</h3>
+            <p>É recomendado introduzir alimentos com consistência pastosa, como frutas amassadas ou raspadas. Essa etapa é essencial para acostumar o bebê a novos sabores e texturas, além de fornecer nutrientes importantes.</p>
+        </div>
+
+        <div class="transition-step">
+            <h3>A partir dos 6 meses</h3>
+            <p>O bebê pode começar a comer sopas de legumes. É importante que os legumes sejam bem cozidos e passados em uma peneira, garantindo uma consistência suave que facilite a deglutição. Essa fase ajuda na adaptação do bebê a alimentos mais complexos, preparando-o para texturas variadas.</p>
+        </div>
+
+        <div class="transition-step">
+            <h3>8 meses</h3>
+            <p>Os bebês já podem experimentar legumes amassados com o garfo. Essa mudança introduz uma nova textura que estimula a mastigação e o desenvolvimento da coordenação motora oral, além de permitir que o pequenino explore sabores de forma mais diversificada.</p>
+        </div>
+
+        <div class="transition-step">
+            <h3>A partir de 1 ano e 2 meses</h3>
+            <p>Seu filho pode começar a se juntar à família nas refeições, consumindo alimentos semelhantes aos que você prepara. Isso não só promove hábitos alimentares saudáveis desde cedo, mas também incentiva a socialização durante as refeições.</p>
+        </div>
+
+        <p>Acompanhar cada etapa da transição alimentar é fundamental para garantir um desenvolvimento saudável e equilibrado do seu bebê.</p>
+    </div>
+
+</div>
+
+
+</div>
+	<div class="footer">
+		<h2>A Eulalie e nós estamos aqui para te ajudar!</h2>
+		<p>
+			Nossa campanha é 100% gratuita com atendimento e tratamento especializado para o seu bebê. Leve-o na unidade básica de saúde mais próxima ou marque uma consulta pelo nosso e-mail:
+			<a href="mailto:eulaliefono@gmail.com">eulaliefono@gmail.com</a>.
+		</p>
+		<p>Nosso prazer é te auxiliar nos cuidados com seu bebê.</p>
+		<p>Compartilhe nossa campanha!</p>
+	</div>
+
+	<!-- Botão da aba minimizada -->
+	<div class="contact-bar-open" id="contactBarOpen" onclick="expandContactBar()">Contato ↑</div>
+	
+		<!-- Aba de Contato -->
+	<div class="contact-bar minimized" id="contactBar">
+		<button class="contact-bar-close" onclick="minimizeContactBar()">×</button>
+        <h3>Contato</h3>
+        <p>Marque uma consulta pelo nosso e-mail:</p>
+        <p><a href="mailto:eulaliefono@gmail.com">eulaliefono@gmail.com</a></p>
+        <p>Estamos aqui para te auxiliar!</p>
+	</div>
+	
+<script>
+    function toggleCard(element) {
+        const card = element.parentElement;
+        const cardContent = card.querySelector('.card-content');
+
+        if (card.classList.contains('expanded')) {
+            card.classList.remove('expanded');
+            element.textContent = "Ler mais";
+        } else {
+            card.classList.add('expanded');
+            element.textContent = "Ler menos";
+        }
+    }
+    function minimizeContactBar() {
+        document.getElementById('contactBar').classList.add('minimized');
+        document.getElementById('contactBarOpen').style.display = 'block';
+    }
+
+    // Função para expandir a aba de contato minimizada
+    function expandContactBar() {
+        document.getElementById('contactBar').classList.remove('minimized');
+        document.getElementById('contactBarOpen').style.display = 'none';
+    }
+	
+	 window.onload = function() {
+            document.getElementById('contactBarOpen').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
