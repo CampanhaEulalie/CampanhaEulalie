@@ -93,13 +93,21 @@
             gap: 20px;
         }
         .card {
+            position: relative;
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-width: 300px; /* Limita a largura do card */
+            max-width: 300px;
             transition: all 0.3s ease;
-			animation: fadeIn 2s ease-in-out;
+            overflow: hidden;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .card-amamentacao img {
+            width: 100%;           /* Largura total do card */
+            height: 100%;          /* Ocupa toda a altura disponível no card */
+            object-fit: fill;      /* Estica a imagem para preencher o espaço verticalmente */
+            border-radius: 8px;
         }
         .card:hover {
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
@@ -118,11 +126,22 @@
             transition: height 0.3s ease; /* Transição suave para expandir o texto */
         }
         .card img {
-            margin-right: 10px;
-            width: 100%; /* Define a largura máxima como 100% do card */
-            height: auto; /* Mantém a proporção da imagem */
+            width: 100%;
+            height: auto; /* Permite que a altura se ajuste conforme a largura */
+            object-fit: cover; /* Garante que a imagem não seja cortada */
             border-radius: 8px;
-            object-fit: cover; /* Garante que a imagem se ajuste corretamente ao card */
+        }
+        .card-amamentacao img {
+            width: 100%;              /* Largura total do card */
+            height: auto;             /* Ajusta a altura proporcional à largura */
+            object-fit: cover;        /* Ajusta a imagem para cobrir todo o espaço do card */
+            border-radius: 8px;
+            display: block;           /* Remove qualquer comportamento inline da imagem */
+        }
+        .card-amamentacao {
+            width: 100%;
+            height: auto;
+            min-height: 300px;        /* Define uma altura mínima para o card */
         }
         .card.expanded .card-content {
             height: auto; /* Expande o conteúdo ao clicar em "Ler mais" */
@@ -341,9 +360,15 @@
         </div>
         <div class="card">
             <div class="img">
-                <img src="Eulalie.png" alt="bebe">
+                <img src="Eulalie.png" alt="mascote da campanha">
             </div>
         </div>
+        <div class="card">
+            <div class="card-amamentacao">
+                <img src="amamentacao.jpg" alt="Amamentação">
+            </div>
+        </div>
+        
     </div>
 
     <div class="transition-section">
